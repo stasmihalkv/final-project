@@ -1,4 +1,4 @@
-import data from '../../db.json'
+//import data from '../../db2.json'
 
 const CATCH_POKEMON = "CATCH_POKEMON";
 const RENDER_POKEMON = "RENDER_POKEMON";
