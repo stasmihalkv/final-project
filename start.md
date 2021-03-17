@@ -1,2 +1,0 @@
-# final-project
-npm start
