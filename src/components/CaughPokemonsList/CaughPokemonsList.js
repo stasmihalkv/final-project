@@ -5,7 +5,7 @@ import { connect } from 'react-redux'
 class CatchedPokemons extends React.Component{
 
     render(){ 
-      const template = this.props.currentStore.map((item)=>{    
+      const template = this.props.pokemons.map((item)=>{    
         if(item.isCaugh){
           return(      
             <div className="item" key={item.id}>
@@ -26,13 +26,14 @@ class CatchedPokemons extends React.Component{
   
 }
 
+const mapStateToProps = (state) =>{
+  return {
+    pokemons: state
+  }
+}
 
-export default connect(
-  state=>({
-    currentStore:state
-  }),
-  dispatch => ({})
-) (CatchedPokemons)
+export default connect(mapStateToProps) (CatchedPokemons)
+
 
 
 //{`../../../public/pokemons/${itemId}.png`}

@@ -3,24 +3,21 @@ import './PokemonsList.css';
 import PokemonCard from '../PokemonCard/PokemonCard.js';
 import PokemonInfo from '../PokemonInfo/PokemonInfo.js';
 import { withRouter}  from 'react-router-dom';
-import { connect } from 'react-redux'
+import { connect } from 'react-redux';
+import { setPokemonAction, catchPokemonAction } from '../actions.js';
 import axios from 'axios';
-
+import data from '../../db.json'
 class PokemonList extends React.Component{
 
       state = {
         flag:true,
-        pokemons: []
+  
       }
 
       componentDidMount() {
-        axios.get(`http://localhost:3000/pokemons`)
+        axios.get(`http://localhost:3000/pokemons/`)
           .then(res => {
-            const pokemons = res.data;
-            this.props.dispatch({
-              type: "RENDER_POKEMON",
-              pokemons: res.data
-            });
+            this.props.setPokemonAction(res.data)
           })
       }
     
@@ -32,17 +29,14 @@ class PokemonList extends React.Component{
       }
 
       catchPokemon = (i) => {    
-        let pokemons = this.props.currentStore;
-        this.setState({pokemons}); 
-        this.props.dispatch({
-          type: "CATCH_POKEMON",
-          id: i-1
-        });
+        let pokemons = this.props.pokemons;
+        this.setState({pokemons})
+        this.props.catchPokemonAction(i-1)
         
       }
 
       render(){ 
-        const pokemons = this.props.currentStore.map((item)=>{      
+        const pokemons = this.props.pokemons.map((item)=>{      
           return(
               <div className="item" key={item.id}> 
                   <PokemonCard name={item.name} 
@@ -67,11 +61,19 @@ class PokemonList extends React.Component{
         )} 
       }  
 }
+              
+const mapStateToProps = (state) =>{
+  return {
+    pokemons:state
+  }
+}
 
+const mapDispatchToProps = (dispatch) =>{
+  return {
+    setPokemonAction: (val) => dispatch(setPokemonAction(val)),
+    catchPokemonAction: (val) => dispatch(catchPokemonAction(val))
+  }
+}
 
-export default connect(
-  state=>({
-    currentStore:state
-  })
-) (PokemonList)
+export default connect(mapStateToProps, mapDispatchToProps)(PokemonList)
 withRouter(PokemonList)

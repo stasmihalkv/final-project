@@ -25,10 +25,12 @@ class PokemonCard extends React.Component{
     }
 }
 
-export default connect(
-    state=>({
-      currentStore:state
-    })
-  ) (PokemonCard)
-  withRouter(PokemonCard)
+const mapStateToProps = (state) =>{
+    return {
+      pokemons: state
+    }
+  }
+
+export default connect(mapStateToProps)(PokemonCard)
+withRouter(PokemonCard)
   
